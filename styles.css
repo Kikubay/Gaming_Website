@@ -16,11 +16,47 @@ body {
     overflow-x: hidden;
 }
 
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.stars, .twinkling {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.stars {
+    background: #000 url('/api/placeholder/1920/1080') repeat top center;
+    z-index: -2;
+}
+
+.twinkling {
+    background: transparent url('/api/placeholder/1920/1080') repeat top center;
+    z-index: -1;
+    animation: move-twinkle-back 200s linear infinite;
+}
+
+@keyframes move-twinkle-back {
+    from {background-position: 0 0;}
+    to {background-position: -10000px 5000px;}
+}
+
 header {
     background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
     width: 100%;
     z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
 nav ul {
@@ -43,6 +79,7 @@ nav ul li a {
 
 nav ul li a:hover {
     color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
 }
 
 main {
@@ -56,11 +93,16 @@ section {
     justify-content: center;
     align-items: center;
     padding: 50px;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
 }
 
 h1, h2 {
     color: var(--primary-color);
     text-align: center;
+    text-shadow: 0 0 10px var(--primary-color);
 }
 
 .game-grid {
@@ -80,7 +122,7 @@ h1, h2 {
 }
 
 .game-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.05);
     box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
 }
 
@@ -104,15 +146,32 @@ button {
     background-color: var(--primary-color);
     color: var(--background-color);
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
     background-color: var(--secondary-color);
+    transform: scale(1.05);
 }
 
 footer {
     text-align: center;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    .game-grid {
+        grid-template-columns: 1fr;
+    }
 }
