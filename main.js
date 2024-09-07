@@ -24,48 +24,60 @@ function populateGameGrid() {
 }
 
 // Smooth scrolling for navigation
-document.querySelectorAll('nav a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        window.scrollTo({
-            top: targetElement.offsetTop - 80,
-            behavior: 'smooth'
+function setupSmoothScrolling() {
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+            });
         });
     });
-});
+}
 
 // Form submission
-document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Here you would typically send the form data to a server
-    alert('Thank you for your message! We will get back to you soon.');
-    this.reset();
-});
+function setupFormSubmission() {
+    const form = document.getElementById('contact-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+    }
+}
 
-// Responsive menu toggle
-function createResponsiveMenu() {
-    const menuToggle = document.createElement('button');
-    menuToggle.textContent = '☰';
-    menuToggle.className = 'menu-toggle';
-    document.querySelector('header').appendChild(menuToggle);
-
-    menuToggle.addEventListener('click', () => {
-        document.querySelector('nav ul').classList.toggle('show');
-    });
+// Menu toggle functionality
+function setupMenuToggle() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navUl = document.querySelector('nav ul');
+    
+    if (menuToggle && navUl) {
+        menuToggle.addEventListener('click', () => {
+            navUl.classList.toggle('show');
+        });
+    }
 }
 
 // Window resize handler
 function handleResize() {
-    if (window.innerWidth > 768) {
-        document.querySelector('nav ul').classList.remove('show');
+    const navUl = document.querySelector('nav ul');
+    if (window.innerWidth > 768 && navUl) {
+        navUl.classList.remove('show');
     }
 }
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
+function init() {
     populateGameGrid();
-    createResponsiveMenu();
+    setupSmoothScrolling();
+    setupFormSubmission();
+    setupMenuToggle();
     window.addEventListener('resize', handleResize);
-});
+}
+
+// Call init when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', init);
