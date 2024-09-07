@@ -69,8 +69,26 @@ function animateParticle(particle) {
     });
 }
 
+// Glitch effect for headings
+function addGlitchEffect() {
+    const headings = document.querySelectorAll('h1, h2');
+    headings.forEach(heading => {
+        heading.addEventListener('mouseover', () => {
+            gsap.to(heading, {
+                skewX: 20,
+                duration: 0.1,
+                repeat: 5,
+                yoyo: true,
+                ease: 'none',
+                onComplete: () => gsap.set(heading, { skewX: 0 })
+            });
+        });
+    });
+}
+
 // Initialize animations
 document.addEventListener('DOMContentLoaded', () => {
     createParticles();
     animateGameCards();
+    addGlitchEffect();
 });
