@@ -161,10 +161,38 @@ footer {
     backdrop-filter: blur(5px);
 }
 
+#menu-toggle {
+    display: none;
+    background: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px 10px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+}
+
 @media (max-width: 768px) {
+    #menu-toggle {
+        display: block;
+    }
+
     nav ul {
+        display: none;
         flex-direction: column;
-        align-items: center;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 20px 0;
+    }
+
+    nav ul.show {
+        display: flex;
     }
 
     nav ul li {
@@ -174,4 +202,26 @@ footer {
     .game-grid {
         grid-template-columns: 1fr;
     }
+}
+
+#cta-button {
+    font-size: 1.2em;
+    padding: 15px 30px;
+    margin-top: 20px;
+    border-radius: 50px;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#cta-button:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 20px var(--secondary-color);
+}
+
+.active {
+    color: var(--primary-color) !important;
+    font-weight: bold;
 }
