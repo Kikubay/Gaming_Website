@@ -83,7 +83,7 @@ nav ul li a:hover {
 }
 
 main {
-    padding-top: 80px;
+    padding-top: 80px; /* This accounts for the fixed header */
 }
 
 section {
@@ -92,11 +92,12 @@ section {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 50px;
+    padding: 80px 50px 50px; /* Increased top padding */
     background-color: rgba(0, 0, 0, 0.7);
     margin: 20px;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    scroll-margin-top: 80px; /* This helps with smooth scrolling to the right position */
 }
 
 h1, h2 {
