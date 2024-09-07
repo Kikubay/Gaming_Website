@@ -44,38 +44,28 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     this.reset();
 });
 
-// Glitch effect on hover for headings
-function addGlitchEffect() {
-    const headings = document.querySelectorAll('h1, h2');
-    headings.forEach(heading => {
-        heading.addEventListener('mouseover', () => {
-            heading.classList.add('glitch');
-        });
-        heading.addEventListener('mouseout', () => {
-            heading.classList.remove('glitch');
-        });
+// Responsive menu toggle
+function createResponsiveMenu() {
+    const menuToggle = document.createElement('button');
+    menuToggle.textContent = '☰';
+    menuToggle.className = 'menu-toggle';
+    document.querySelector('header').appendChild(menuToggle);
+
+    menuToggle.addEventListener('click', () => {
+        document.querySelector('nav ul').classList.toggle('show');
     });
+}
+
+// Window resize handler
+function handleResize() {
+    if (window.innerWidth > 768) {
+        document.querySelector('nav ul').classList.remove('show');
+    }
 }
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     populateGameGrid();
-    addGlitchEffect();
-});
-
-// Responsive menu toggle
-const menuToggle = document.createElement('button');
-menuToggle.textContent = '☰';
-menuToggle.className = 'menu-toggle';
-document.querySelector('header').appendChild(menuToggle);
-
-menuToggle.addEventListener('click', () => {
-    document.querySelector('nav ul').classList.toggle('show');
-});
-
-// Window resize handler
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) {
-        document.querySelector('nav ul').classList.remove('show');
-    }
+    createResponsiveMenu();
+    window.addEventListener('resize', handleResize);
 });
