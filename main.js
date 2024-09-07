@@ -25,24 +25,43 @@ function populateGameGrid() {
 
 // Smooth scrolling for navigation
 function setupSmoothScrolling() {
-    document.querySelectorAll('nav a').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
+
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
-            const headerOffset = 80; // Height of your fixed header
-            const elementPosition = targetElement.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
+            if (targetElement) {
+                // Close mobile menu if it's open
+                document.querySelector('nav ul').classList.remove('show');
 
-            // Close mobile menu if it's open
-            const navUl = document.querySelector('nav ul');
-            navUl.classList.remove('show');
+                // Calculate header height
+                const headerHeight = document.querySelector('header').offsetHeight;
+
+                // Scroll to the target element
+                window.scrollTo({
+                    top: targetElement.offsetTop - headerHeight,
+                    behavior: 'smooth'
+                });
+
+                // Update URL without page reload
+                history.pushState(null, null, `#${targetId}`);
+
+                // Update active state in navigation
+                updateActiveNavItem(targetId);
+            }
         });
+    });
+}
+
+// Update active state in navigation
+function updateActiveNavItem(targetId) {
+    document.querySelectorAll('nav a').forEach(navItem => {
+        navItem.classList.remove('active');
+        if (navItem.getAttribute('href') === `#${targetId}`) {
+            navItem.classList.add('active');
+        }
     });
 }
 
@@ -78,12 +97,37 @@ function handleResize() {
     }
 }
 
+// Highlight active section on scroll
+function setupScrollSpy() {
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('nav a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (pageYOffset >= sectionTop - sectionHeight / 3) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href').substring(1) === current) {
+                item.classList.add('active');
+            }
+        });
+    });
+}
+
 // Initialize
 function init() {
     populateGameGrid();
     setupSmoothScrolling();
     setupFormSubmission();
     setupMenuToggle();
+    setupScrollSpy();
     window.addEventListener('resize', handleResize);
 }
 
