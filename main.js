@@ -30,10 +30,18 @@ function setupSmoothScrolling() {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
+            const headerOffset = 80; // Height of your fixed header
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
             window.scrollTo({
-                top: targetElement.offsetTop - 80,
+                top: offsetPosition,
                 behavior: 'smooth'
             });
+
+            // Close mobile menu if it's open
+            const navUl = document.querySelector('nav ul');
+            navUl.classList.remove('show');
         });
     });
 }
